@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "maxSkillLevel": 100,
+  "eliteUnlockLevel": 100,
+  "patchProfileMigrations": true,
+  "verboseLogging": false
+}
