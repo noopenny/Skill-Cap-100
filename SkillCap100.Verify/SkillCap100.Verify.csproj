@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    静态校验工具（不参与游戏运行）。
+    用 Mono.Cecil 读取游戏/服务端程序集，确认：
+      1. 所有 Harmony 补丁目标方法真实存在（签名一致）；
+      2. 所有 Transpiler 依赖的 IL 常量仍然存在且数量符合预期（50 / 5100 / 60 等）；
+      3. 已编译的客户端插件里的 [HarmonyPatch] 特性都能在 Assembly-CSharp.dll 中解析到。
+    因为无法在 CI 里启动《逃离塔科夫》，这是验证补丁目标最可靠的方式。
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>SkillCap100.Verify</AssemblyName>
+    <RootNamespace>SkillCap100.Verify</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+<GameRoot>D:\game\Client.0.16.9.5.40743</GameRoot>
+    <SptRuntimeDir>$(GameRoot)\SPT_Runtime</SptRuntimeDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Mono.Cecil">
+      <HintPath>$(SptRuntimeDir)\Mono.Cecil.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

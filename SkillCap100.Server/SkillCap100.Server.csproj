@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    SPT 4.1.6 服务端模组 - SkillCap100.Server
+    ==================================================================
+    目标框架必须与 SPT 服务端一致 (SPT 4.1.6 = .NET 10)。
+    参考程序集直接从 SPT_Runtime 目录引用，且 Private=false（不复制到输出目录），
+    因为服务端运行时已经加载了这些程序集；把它们的副本放进 mod 目录反而会被
+    SPT 的 ModValidator 认为可疑。
+
+    如果本工程被移动到游戏目录之外，请通过命令行覆盖 GameRoot：
+      dotnet build -c Release /p:GameRoot="D:\game\Client.0.16.9.5.40743"
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>SkillCap100.Server</AssemblyName>
+    <RootNamespace>SkillCap100.Server</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <Product>Skill Cap 100 (Server)</Product>
+    <Description>Raises the SPT/Tarkov skill level cap from 51 to 100 and moves elite effects to level 100.</Description>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+    <NoWarn>$(NoWarn);CS1591;NU1701</NoWarn>
+    <!-- 默认游戏根目录：<本文件>\..\..\..\.. -->
+<GameRoot>D:\game\Client.0.16.9.5.40743</GameRoot>
+    <SptRuntimeDir>$(GameRoot)\SPT_Runtime</SptRuntimeDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="SPTarkov.Server.Core">
+      <HintPath>$(SptRuntimeDir)\SPTarkov.Server.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SPTarkov.Common">
+      <HintPath>$(SptRuntimeDir)\SPTarkov.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SPTarkov.DI">
+      <HintPath>$(SptRuntimeDir)\SPTarkov.DI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SPTarkov.Reflection">
+      <HintPath>$(SptRuntimeDir)\SPTarkov.Reflection.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(SptRuntimeDir)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SemanticVersioning">
+      <HintPath>$(SptRuntimeDir)\SemanticVersioning.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      SPT 服务端跑在 Microsoft.AspNetCore.App 共享框架上（.NET 10），
+      ISptLogger<T> 的 LogLevel 参数来自 Microsoft.Extensions.Logging.Abstractions，
+      该程序集位于共享框架中而不是 SPT_Runtime 目录，因此这里用 FrameworkReference 引用。
+    -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+</Project>
